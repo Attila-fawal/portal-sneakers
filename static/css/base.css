@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background: url('/media/file-20191126-180279-gvmxgl.avif') no-repeat center center fixed;
+    background: url('/media/Professional-shoe-sniffers-part-of-eBay-Authentication-Guarantee-programme-shutterstock_1252581049.jpg') no-repeat center center fixed;
     background-size: cover;
     height: calc(100vh - 164px);
     color: #555;
@@ -55,6 +55,17 @@ body {
 .border-black {
     border: 1px solid black !important;
 }
+
+.bg-black {
+    background: #000 !important;
+}
+
+
+
+
+
+
+
 
 /* -------------------------------- Media Queries */
 
