@@ -19,9 +19,9 @@
                 Sneakers
             </a>
             <div class="dropdown-menu border-0" aria-labelledby="clothing-link">
-                <a href="" class="dropdown-item">Men</a>
-                <a href="" class="dropdown-item">Women</a>
-                <a href="" class="dropdown-item">Kids</a>
+                <a href="{% url 'products' %}?category=men_sneakers" class="dropdown-item">Men</a>
+                <a href="{% url 'products' %}?category=women_sneakers" class="dropdown-item">Women</a>
+                <a href="{% url 'products' %}?category=kids_sneakers" class="dropdown-item">Kids</a>
             </div>
         </li>
 
@@ -33,8 +33,8 @@
                 Special Offers
             </a>
             <div class="dropdown-menu border-0" aria-labelledby="specials-link">
-                <a href="" class="dropdown-item">New Arrivals</a>
-                <a href="" class="dropdown-item">Deals</a>
+                <a href="{% url 'products' %}?category=new_arrivals" class="dropdown-item">New Arrivals</a>
+                <a href="{% url 'products' %}?category=deals" class="dropdown-item">Deals</a>
             </div>
         </li>
     </ul>
