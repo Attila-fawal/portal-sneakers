@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 {% block page_header %}
 <div class="container header-container">
     <div class="row">
@@ -12,6 +13,19 @@
 {% block content %}
 <div class="overlay"></div>
 <div class="container-fluid">
+    {% if messages %}
+    <div class="row">
+        <div class="col-12">
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
+                    {{ message }}
+                    </li>
+                    {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col-12 col-md-6 col-lg-4 offset-lg-2">
             <div class="image-container my-5">
@@ -124,6 +138,15 @@
 
         // Update sizes dropdown when the size type changes
         sizeTypeField.change(updateSizes);
+
+        // Message disappearing function
+        setTimeout(function () {
+            $('.messages').fadeOut('slow');
+        }, 3000);
     });
+
+    
 </script>
+
+
 {% endblock extra_js %}

@@ -101,7 +101,10 @@ a.category-badge>span.badge:hover {
     cursor: pointer;
 }
 
-
+.alert-error {
+    color: white;
+    background-color: red;
+}
 
 
 /* -------------------------------- Media Queries */
