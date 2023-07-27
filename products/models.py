@@ -28,3 +28,20 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Size(models.Model):
+    size = models.IntegerField()
+    size_type = models.CharField(max_length=1, choices=[('M', 'Men'), ('W', 'Women'), ('K', 'Kids')])
+
+    def __str__(self):
+        return f'{self.size} ({self.get_size_type_display()})'
+
+
+class ProductSize(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    size = models.ForeignKey('Size', on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.product.name} - {self.size.size}'

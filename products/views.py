@@ -3,6 +3,12 @@ from django.contrib import messages
 from django.db.models import Q
 from django.db.models.functions import Lower
 from .models import Product, Category
+from django.http import JsonResponse
+from django.views import View
+from .models import Size
+from django.core import serializers
+
+
 
 # Create your views here.
 
@@ -66,3 +72,14 @@ def product_detail(request, product_id):
     }
 
     return render(request, 'products/product_detail.html', context)
+
+
+class GetSizesView(View):
+    def get(self, request):
+        size_type = request.GET.get('size_type', None)
+        if size_type:
+            sizes = list(Size.objects.filter(size_type=size_type).values('id', 'size'))
+            return JsonResponse({'sizes': sizes})
+        else:
+            return JsonResponse({'error': 'Missing size type parameter.'}, status=400)
+            
