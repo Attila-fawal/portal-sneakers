@@ -23,9 +23,12 @@ def add_to_bag(request, item_id):
     # Retrieve the ProductSize instance for this product and size
     product_size = ProductSize.objects.get(product=product, size__id=int(size_id))  # convert to int here for DB query
 
+    # Calculate the current quantity of the product in the bag
+    current_quantity = bag.get(item_id, {}).get(size_id, 0)
+    
     # Check if the requested quantity exceeds the available inventory
-    if quantity > product_size.quantity:
-        messages.error(request, f'Sorry, only {product_size.quantity} items are available.')
+    if quantity + current_quantity > product_size.quantity:
+        messages.error(request, f'Sorry, only {product_size.quantity - current_quantity} more items are available.')
     else: 
         # Ensure we have a dictionary for this item in the bag
         if item_id not in bag:
