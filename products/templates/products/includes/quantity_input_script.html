@@ -10,26 +10,30 @@
             // Get the selected size type
             var selectedSizeType = sizeTypeField.val();
 
-            // Send AJAX request to the Django view
-            $.ajax({
-                url: "{% url 'get_sizes' %}", // Use Django URL reversing feature
-                data: {
-                    'size_type': selectedSizeType
-                },
-                dataType: 'json',
-                success: function (data) {
-                    // Clear the size dropdown
-                    sizeDropdown.html('');
+            // Check if selectedSizeType has a truthy value
+            if (selectedSizeType) {
+                // Send AJAX request to the Django view
+                $.ajax({
+                    url: "{% url 'get_sizes' %}", // Use Django URL reversing feature
+                    data: {
+                        'size_type': selectedSizeType
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        // Clear the size dropdown
+                        sizeDropdown.html('');
 
-                    // Add the new sizes to the dropdown
-                    data.sizes.forEach(function (size) {
-                        sizeDropdown.append(
-                            $('<option></option>').attr('value', size.id).text(size.size)
-                        );
-                    });
-                }
-            });
+                        // Add the new sizes to the dropdown
+                        data.sizes.forEach(function (size) {
+                            sizeDropdown.append(
+                                $('<option></option>').attr('value', size.id).text(size.size)
+                            );
+                        });
+                    }
+                });
+            }
         }
+
 
         // Update sizes dropdown when the page loads
         updateSizes();
