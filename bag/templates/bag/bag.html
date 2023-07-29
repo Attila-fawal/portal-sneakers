@@ -80,9 +80,11 @@
                                     </div>
                                 </div>
                             </form>
-                            <a class="update-link text-info"><small>Update</small></a>
+                            <a class="update-link text-info" id="remove_{{ item.item_id }}"
+                                data-size="{{ item.size.id }}"><small>Update</small></a>
                             <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}"
-                                data-size="{{ item.size }}"><small>Remove</small></a>
+                                data-size="{{ item.size.id }}"><small>Remove</small></a>
+
                         </td>
                         <td class="py-3">
                             <p class="my-0">${{ item.product.price | calc_subtotal:item.quantity }}</p>
@@ -141,8 +143,25 @@
 <script type="text/javascript">
     // Update quantity on click
     $('.update-link').click(function (e) {
-        var form = $(this).prev('.update-form');
-        form.submit();
+        var csrfToken = "{{ csrf_token }}";
+        var itemId = $(this).attr('id').split('remove_')[1];
+        var size = $(this).data('size');
+        var quantity = $('#id_qty_' + itemId).val();
+        var url = `/bag/update/${itemId}/`;
+        var data = { 'csrfmiddlewaretoken': csrfToken, 'quantity': quantity, 'size': size };
+
+        console.log(size); // Check if the size is correctly logged
+        $.post(url, data)
+            .done(function (data) {
+                if (data.success) {
+                    console.log('AJAX request completed. Reloading page...');
+                    location.reload();
+                } else {
+                    console.log('AJAX request completed, but operation was not successful. Redirecting...');
+                    window.location = data.redirect_url;
+                }
+            })
+
     })
 
     // Remove item and reload on click
@@ -156,7 +175,11 @@
         console.log(size); // Check if the size is correctly logged
         $.post(url, data)
             .done(function () {
+                console.log('AJAX request completed. Reloading page...');
                 location.reload();
+            })
+            .fail(function () {
+                console.log('AJAX request failed. Please check your network connection and try again.');
             });
     })
 </script>
