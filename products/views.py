@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.views import View
 from .models import Size
 from django.core import serializers
+from .forms import ProductForm, ProductSizeFormSet
+
 
 
 
@@ -75,11 +77,35 @@ def product_detail(request, product_id):
 
 
 class GetSizesView(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         size_type = request.GET.get('size_type', None)
         if size_type:
             sizes = list(Size.objects.filter(size_type=size_type).values('id', 'size'))
             return JsonResponse({'sizes': sizes})
         else:
             return JsonResponse({'error': 'Missing size type parameter.'}, status=400)
-            
+
+def add_product(request):
+    """ Add a product to the store """
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        formset = ProductSizeFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
+            product = form.save()
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.product = product
+                instance.save()
+            return redirect('products')
+    else:
+        form = ProductForm()
+        formset = ProductSizeFormSet()
+
+    template = 'products/add_product.html'
+    context = {
+        'form': form,
+        'formset': formset,
+    }
+
+    return render(request, template, context)
+    

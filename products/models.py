@@ -32,11 +32,15 @@ class Product(models.Model):
 
 class Size(models.Model):
     size = models.IntegerField()
-    size_type = models.CharField(max_length=1, choices=[('M', 'Men'), ('W', 'Women'), ('K', 'Kids')])
+    SIZE_TYPE_CHOICES = [
+        ('M', 'Men'),
+        ('W', 'Women'),
+        ('K', 'Kids'),
+    ]
+    size_type = models.CharField(max_length=1, choices=SIZE_TYPE_CHOICES)
 
     def __str__(self):
-        return f'{self.size} ({self.get_size_type_display()})'
-
+        return f"{self.size} - {self.get_size_type_display()}"
 
 class ProductSize(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
@@ -44,4 +48,4 @@ class ProductSize(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return f'{self.product.name} - {self.size.size}'
+        return f"{self.product.name} - {self.size.size}"
