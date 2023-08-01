@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.views import View
 from .models import Size
 from django.core import serializers
-from .forms import ProductForm, ProductSizeFormSet
+from .forms import ProductForm, create_product_size_formset
 from django.forms import inlineformset_factory
 from .models import ProductSize
 
@@ -92,14 +92,13 @@ class GetSizesView(View):
 
 @login_required
 def add_product(request):
-    """ Add a product to the store """
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
 
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
-        formset = ProductSizeFormSet(request.POST)
+        formset = create_product_size_formset(request.POST)
         if form.is_valid() and formset.is_valid():
             product = form.save()
             instances = formset.save(commit=False)
@@ -112,7 +111,7 @@ def add_product(request):
             messages.error(request, 'Failed to add product. Please ensure the form is valid.')
     else:
         form = ProductForm()
-        formset = ProductSizeFormSet()
+        formset = create_product_size_formset()
 
     template = 'products/add_product.html'
     context = {
@@ -158,37 +157,41 @@ def get_sizes(request):
 
 @login_required
 def edit_product(request, product_id):
-    """ Edit a product in the store """
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
 
     product = get_object_or_404(Product, pk=product_id)
-
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
-        formset = ProductSizeFormSet(request.POST, instance=product)
-
+        formset = create_product_size_formset(request.POST, instance=product)
         if form.is_valid() and formset.is_valid():
-            form.save()
-            formset.save()
+            product = form.save()
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.product = product
+                instance.save()
+            formset.save_m2m()  # Save ManyToMany relations
             messages.success(request, 'Successfully updated product!')
-            return redirect(reverse('product_detail', args=[product.id]))
+            return redirect('products')
         else:
             messages.error(request, 'Failed to update product. Please ensure the form is valid.')
     else:
         form = ProductForm(instance=product)
-        formset = ProductSizeFormSet(instance=product)
-        messages.info(request, f'You are editing {product.name}')
+        formset = create_product_size_formset(instance=product)
 
     template = 'products/edit_product.html'
     context = {
         'form': form,
         'formset': formset,
-        'product': product,
+        'product': product,  # Add this line
     }
 
     return render(request, template, context)
+
+
+
+
 
 @login_required
 def delete_product(request, product_id):

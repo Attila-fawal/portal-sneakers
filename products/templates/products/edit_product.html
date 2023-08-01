@@ -48,7 +48,7 @@
         </div>
     </div>
 </div>
-
+{% endblock %}
 {% block postloadjs %}
 {{ block.super }}
 <script type="text/javascript">
@@ -60,6 +60,31 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        // Function to disable/enable options across all size selectors
+        function updateSizeOptions() {
+            var selectedSizes = [];
+            $('select[id$="-size"]').each(function () {
+                var selectedOption = $(this).children('option:selected').val();
+                if (selectedOption) {
+                    selectedSizes.push(selectedOption);
+                }
+            });
+
+            $('select[id$="-size"]').each(function () {
+                $(this).children('option').each(function () {
+                    if (!$(this).is(':selected') && selectedSizes.includes($(this).val())) {
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).prop('disabled', false);
+                    }
+                });
+            });
+        }
+
+        // Run updateSizeOptions whenever a size is selected
+        $(document).on('change', 'select[id$="-size"]', updateSizeOptions);
+
+        // Existing code...
         $('#id_category').change(function (e) {
             var category = $(this).val();
             var url = `/products/get_sizes/?category=${category}`;
@@ -83,13 +108,29 @@
                                 text: item.size + ' (' + item.size_type + ')'
                             }));
                         });
+                        // Call updateSizeOptions after AJAX response is processed
+                        updateSizeOptions();
                     });
                 },
                 error: function () {
                     console.log('AJAX request failed. Please check your network connection and try again.');
                 }
             });
+        }).change();
+
+        // Add event listener for each form in formset
+        $("div[id$='-DELETE']").each(function () {
+            var deleteCheckbox = $(this);
+            deleteCheckbox.change(function () {
+                if (this.checked) {
+                    deleteCheckbox.parent().parent().fadeOut();
+                } else {
+                    deleteCheckbox.parent().parent().fadeIn();
+                }
+            });
         });
     });
 </script>
+
+
 {% endblock %}

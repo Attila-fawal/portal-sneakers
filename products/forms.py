@@ -11,11 +11,10 @@ class ProductSizeForm(forms.ModelForm):
         fields = ['product', 'size', 'quantity']
 
     def __init__(self, *args, **kwargs):
+        self.category = kwargs.pop('category', None)
         super().__init__(*args, **kwargs)
-        if 'instance' in kwargs:
-            self.category = kwargs['instance'].category
-        else:
-            self.category = None
+        if self.category:
+            self.fields['size'].queryset = Size.objects.filter(size_type=self.category)
 
     def clean_size(self):
         size = self.cleaned_data.get('size')
@@ -28,10 +27,22 @@ class ProductSizeForm(forms.ModelForm):
             id_ += '-' + str(self.prefix)
         return id_
 
-ProductSizeFormSet = inlineformset_factory(Product, ProductSize, form=ProductSizeForm, fields=('size', 'quantity'), extra=1)
-
-
-
+def create_product_size_formset(*args, **kwargs):
+    category = kwargs.pop("category", None)
+    ProductSizeFormSet = inlineformset_factory(
+        Product,
+        ProductSize,
+        form=ProductSizeForm,
+        fields=('size', 'quantity'),
+        extra=1
+    )
+    
+    class NewProductSizeFormSet(ProductSizeFormSet):
+        def __init__(self, *args, **kwargs):
+            super(NewProductSizeFormSet, self).__init__(*args, **kwargs)
+            for form in self:
+                form.category = category
+    return NewProductSizeFormSet(*args, **kwargs)
 
 class ProductForm(forms.ModelForm):
 
