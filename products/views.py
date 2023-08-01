@@ -109,3 +109,31 @@ def add_product(request):
 
     return render(request, template, context)
     
+
+def get_sizes(request):
+    category = request.GET.get('category', None)
+
+    if category is not None:
+        category_id = int(category)
+
+        if category_id in [4, 5]:  # Assuming 'New Arrivals' and 'Deals' category ids are 4 and 5 respectively
+            sizes = Size.objects.all().values()
+        else:
+            size_type = None
+
+            if category_id == 1:  # Assuming 'Men' category id is 1
+                size_type = 'M'
+            elif category_id == 2:  # Assuming 'Women' category id is 2
+                size_type = 'W'
+            elif category_id == 3:  # Assuming 'Kids' category id is 3
+                size_type = 'K'
+
+            if size_type:
+                sizes = Size.objects.filter(size_type=size_type).values()
+            else:
+                return JsonResponse({'error': 'Invalid category'}, status=400)
+
+        sizes_list = list(sizes)  # important: convert the QuerySet to a list
+        return JsonResponse(sizes_list, safe=False)
+
+    return JsonResponse({'error': 'Invalid category'}, status=400)

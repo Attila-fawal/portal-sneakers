@@ -42,7 +42,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         // Listen for changes in the category select field
-        $('.category-dropdown').change(function (e) {
+        $('#id_category').change(function (e) {
             var category = $(this).val();
             var url = `/products/get_sizes/?category=${category}`;  // Endpoint that returns sizes for a given type
 
@@ -51,31 +51,35 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    // Get all size dropdowns
-                    var sizeDropdowns = $('.size-dropdown');
+                    // For each size dropdown in the formset
+                    $('select[id$="-size"]').each(function () {
+                        var sizeDropdown = $(this);
 
-                    // Clear and populate each size dropdown
-                    sizeDropdowns.each(function () {
                         // Clear the size dropdown
-                        $(this).empty();
+                        sizeDropdown.empty();
+
+                        // Add a "Select size" option to the dropdown
+                        sizeDropdown.append($('<option>', {
+                            value: "",
+                            text: "Select size"
+                        }));
 
                         // Populate the size dropdown with sizes for the selected type
-                        $.each(data.sizes, function (index, item) {
-                            $(this).append($('<option>', {
+                        $.each(data, function (index, item) {
+                            sizeDropdown.append($('<option>', {
                                 value: item.id,
-                                text: item.size
+                                text: item.size + ' (' + item.size_type + ')' // show size_type along with size
                             }));
                         });
                     });
                 },
                 error: function () {
-                    console.log('AJAX request failed. Please check your network connection and try again.');
+                    alert('AJAX request failed. Please check your network connection and try again.');
                 }
             });
         });
     });
 </script>
-
 
 
 
