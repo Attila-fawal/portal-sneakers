@@ -8,6 +8,10 @@ from django.views import View
 from .models import Size
 from django.core import serializers
 from .forms import ProductForm, ProductSizeFormSet
+from django.forms import inlineformset_factory
+from .models import ProductSize
+
+
 
 
 
@@ -96,7 +100,10 @@ def add_product(request):
             for instance in instances:
                 instance.product = product
                 instance.save()
+            messages.success(request, 'Successfully added product!')
             return redirect('products')
+        else:
+            messages.error(request, 'Failed to add product. Please ensure the form is valid.')
     else:
         form = ProductForm()
         formset = ProductSizeFormSet()
@@ -108,6 +115,7 @@ def add_product(request):
     }
 
     return render(request, template, context)
+
     
 
 def get_sizes(request):
@@ -137,3 +145,33 @@ def get_sizes(request):
         return JsonResponse(sizes_list, safe=False)
 
     return JsonResponse({'error': 'Invalid category'}, status=400)
+
+
+def edit_product(request, product_id):
+    """ Edit a product in the store """
+    product = get_object_or_404(Product, pk=product_id)
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        formset = ProductSizeFormSet(request.POST, instance=product)
+
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            messages.success(request, 'Successfully updated product!')
+            return redirect(reverse('product_detail', args=[product.id]))
+        else:
+            messages.error(request, 'Failed to update product. Please ensure the form is valid.')
+    else:
+        form = ProductForm(instance=product)
+        formset = ProductSizeFormSet(instance=product)
+        messages.info(request, f'You are editing {product.name}')
+
+    template = 'products/edit_product.html'
+    context = {
+        'form': form,
+        'formset': formset,
+        'product': product,
+    }
+
+    return render(request, template, context)

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+<div class="container header-container">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="overlay"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <hr>
+            <h2 class="logo-font mb-4">Product Management</h2>
+            <h5 class="text-muted">Edit a Product</h5>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <form method="POST" action="{% url 'edit_product' product.id %}" class="form mb-2"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+
+                <!-- Add this part for ProductSize formset -->
+                {{ formset.management_form }}
+                {% for form in formset %}
+                {{ form | crispy }}
+                {% endfor %}
+
+                <div class="text-right">
+                    <a class="btn btn-outline-black rounded-0" href="{% url 'products' %}">Cancel</a>
+                    <button class="btn btn-black rounded-0" type="submit">Update Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#id_category').change(function (e) {
+            var category = $(this).val();
+            var url = `/products/get_sizes/?category=${category}`;
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('select[id$="-size"]').each(function () {
+                        var sizeDropdown = $(this);
+                        sizeDropdown.empty();
+                        sizeDropdown.append($('<option>', {
+                            value: "",
+                            text: "Select size"
+                        }));
+
+                        $.each(data, function (index, item) {
+                            sizeDropdown.append($('<option>', {
+                                value: item.id,
+                                text: item.size + ' (' + item.size_type + ')'
+                            }));
+                        });
+                    });
+                },
+                error: function () {
+                    console.log('AJAX request failed. Please check your network connection and try again.');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
