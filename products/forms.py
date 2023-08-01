@@ -4,26 +4,34 @@ from .models import ProductSize, Size, Product, Category
 from django.forms import inlineformset_factory
 
 class ProductSizeForm(forms.ModelForm):
-    size = forms.ModelChoiceField(queryset=Size.objects.none())
-    
+    size = forms.ModelChoiceField(queryset=Size.objects.all())
+
     class Meta:
         model = ProductSize
         fields = ['product', 'size', 'quantity']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if 'category' in kwargs:
-            self.fields['size'].queryset = Size.objects.filter(size_type=kwargs['category'])
+        if 'instance' in kwargs:
+            self.category = kwargs['instance'].category
+        else:
+            self.category = None
+
+    def clean_size(self):
+        size = self.cleaned_data.get('size')
+        if size and self.category and size.size_type != self.category:
+            raise forms.ValidationError("Size must match the selected category.")
+        return size
 
     def id_for_label(self, id_):
-        """
-        Include index in label for size field.
-        """
         if id_ == 'id_product-size':
             id_ += '-' + str(self.prefix)
         return id_
 
 ProductSizeFormSet = inlineformset_factory(Product, ProductSize, form=ProductSizeForm, fields=('size', 'quantity'), extra=1)
+
+
+
 
 class ProductForm(forms.ModelForm):
 
