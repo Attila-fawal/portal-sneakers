@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block page_header %}
 <div class="container header-container">
     <div class="row">
@@ -20,8 +19,8 @@
                 {% for message in messages %}
                 <li{% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
                     {{ message }}
-                    </li>
-                    {% endfor %}
+                </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
@@ -100,10 +99,27 @@
                                             </span>
                                         </button>
                                     </div>
+                                    </form>
+                                    <div class="comments-section mt-5">
+                                        <h4>Comments:</h4>
+                                        {% for comment in product.comments.all %}
+                                            <p>{{ comment.user.username }} ({{ comment.created_date }}): {{ comment.text }}</p>
+                                            {% if comment.user == request.user %}
+                                                <a href="{% url 'edit_comment' comment.id %}">Edit</a> |
+                                                <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                                            {% endif %}
+                                        {% empty %}
+                                            <p>No comments yet. Be the first one to comment!</p>
+                                        {% endfor %}
+                                        <form method="post" action="{% url 'add_comment' product.id %}">
+                                            {% csrf_token %}
+                                            {{ form.text }}
+                                            <button type="submit" class="btn btn-black rounded-0 text-uppercase" id="id_submit" disabled>Add comment</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-12">
                             <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 mt-5">
                                 <span class="icon">
@@ -125,4 +141,27 @@
 {% block postloadjs %}
 {{ block.super }}
 {% include 'products/includes/quantity_input_script.html' %}
+
+<script type="text/javascript">
+    
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var commentInput = document.getElementById('id_text');
+        var submitButton = document.getElementById('id_submit');
+
+        console.log('commentInput: ', commentInput);
+        console.log('submitButton: ', submitButton);
+
+        if (commentInput && submitButton) {
+            commentInput.addEventListener('input', function (e) {
+                console.log('input event: ', e);
+                if (e.target.value) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            });
+        }
+    });
+</script>
+
 {% endblock %}

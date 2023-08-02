@@ -11,6 +11,8 @@ from django.core import serializers
 from .forms import ProductForm, create_product_size_formset
 from django.forms import inlineformset_factory
 from .models import ProductSize
+from comments.forms import CommentForm
+
 
 
 
@@ -73,9 +75,13 @@ def product_detail(request, product_id):
     """ A view to show individual product details """
 
     product = get_object_or_404(Product, pk=product_id)
+    
+    # Instantiate the form
+    comment_form = CommentForm()
 
     context = {
         'product': product,
+        'comment_form': comment_form,
     }
 
     return render(request, 'products/product_detail.html', context)
