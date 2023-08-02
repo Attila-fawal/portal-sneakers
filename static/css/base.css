@@ -188,6 +188,7 @@ input[name='q']::placeholder {
         max-width: 80%;
     }
 }
+
 /* Allauth form formatting */
 
 .allauth-form-inner-content p {
@@ -272,6 +273,15 @@ input[name='q']::placeholder {
     border-color: #dc3545;
     border-radius: 0;
 }
+
+/* comments edit */
+
+.comment-form {
+    margin-top: 150px;
+
+}
+
+
 
 /* fixed top navbar only on medium and up */
 @media (min-width: 992px) {

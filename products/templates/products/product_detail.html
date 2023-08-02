@@ -111,9 +111,9 @@
                                         {% empty %}
                                             <p>No comments yet. Be the first one to comment!</p>
                                         {% endfor %}
-                                        <form method="post" action="{% url 'add_comment' product.id %}">
+                                        <form method="post" action="{% url 'add_comment' product.id %}" data-action-url="{% url 'add_comment' product.id %}">
                                             {% csrf_token %}
-                                            {{ form.text }}
+                                            <textarea id="comment_text" name="text"></textarea>
                                             <button type="submit" class="btn btn-black rounded-0 text-uppercase" id="id_submit" disabled>Add comment</button>
                                         </form>
                                     </div>
@@ -143,9 +143,14 @@
 {% include 'products/includes/quantity_input_script.html' %}
 
 <script type="text/javascript">
-    
     document.addEventListener('DOMContentLoaded', (event) => {
-        var commentInput = document.getElementById('id_text');
+        var form = document.querySelector('form[data-action-url]');
+        console.log('form: ', form);
+
+        var actionUrl = form ? form.getAttribute('data-action-url') : '';
+        console.log('actionUrl: ', actionUrl);
+
+        var commentInput = document.getElementById('comment_text');
         var submitButton = document.getElementById('id_submit');
 
         console.log('commentInput: ', commentInput);
