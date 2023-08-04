@@ -180,6 +180,18 @@ input[name='q']::placeholder {
     overflow-y: auto;
 }
 
+
+.wishlist-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-image,
+.item-detail {
+    width: 100%;
+}
+
 /* -------------------------------- Media Queries */
 
 /* Slightly larger container on xl screens */

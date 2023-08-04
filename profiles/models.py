@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from products.models import Product
 
 from django_countries.fields import CountryField
 
@@ -33,3 +34,20 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
     # Existing users: just save the profile
     instance.userprofile.save()
+
+class Wishlist(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="wishlist")
+    products = models.ManyToManyField(Product, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s wishlist"
+
+@receiver(post_save, sender=User)
+def create_or_update_user_wishlist(sender, instance, created, **kwargs):
+    """
+    Create or update the user wishlist
+    """
+    if created:
+        Wishlist.objects.create(user=instance)
+    # Existing users: just save the wishlist
+    instance.wishlist.save()
