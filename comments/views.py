@@ -5,7 +5,6 @@ from .models import Comment
 from .forms import CommentForm
 from django.contrib import messages
 
-
 @login_required
 def add_comment(request, product_id):
     """ A view to add a comment to a product """
@@ -17,12 +16,12 @@ def add_comment(request, product_id):
             comment = form.save(commit=False)
             comment.product = product
             comment.user = request.user
+            comment.rating = request.POST.get('stars')
             comment.save()
             messages.success(request, 'Successfully added comment!')
             return redirect('product_detail', product_id=product_id)
         else:
             messages.error(request, 'Failed to add comment. Please ensure the form is valid.')
-            form = CommentForm(request.POST)
     else:
         form = CommentForm()
 
@@ -37,7 +36,7 @@ def add_comment(request, product_id):
 @login_required
 def edit_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
-    if request.user != comment.user:
+    if request.user != comment.user and not request.user.is_superuser:
         messages.error(request, 'You are not authorized to edit this comment.')
         return redirect('product_detail', product_id=comment.product.id)
     if request.method == 'POST':
@@ -52,11 +51,10 @@ def edit_comment(request, comment_id):
     return render(request, 'comments/edit_comment.html', {'form': form, 'comment': comment})
 
 
-
 @login_required
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
-    if request.user != comment.user:
+    if request.user != comment.user and not request.user.is_superuser:
         messages.error(request, 'You are not authorized to delete this comment.')
         return redirect('product_detail', product_id=comment.product.id)
     product_id = comment.product.id

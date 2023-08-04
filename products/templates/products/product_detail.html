@@ -19,8 +19,8 @@
                 {% for message in messages %}
                 <li{% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
                     {{ message }}
-                </li>
-                {% endfor %}
+                    </li>
+                    {% endfor %}
             </ul>
         </div>
     </div>
@@ -77,24 +77,24 @@
                                 </select>
                             </div>
                         </div>
-                
+
                         <div class="col-12">
                             <p class="mt-3"><strong>Quantity:</strong></p>
                             <div class="form-group w-50">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <button class="decrement-qty btn btn-black rounded-0" data-item_id="{{ product.id }}"
-                                            id="decrement-qty_{{ product.id }}">
+                                        <button class="decrement-qty btn btn-black rounded-0"
+                                            data-item_id="{{ product.id }}" id="decrement-qty_{{ product.id }}">
                                             <span class="icon">
                                                 <i class="fas fa-minus"></i>
                                             </span>
                                         </button>
                                     </div>
-                                    <input class="form-control qty_input" type="number" name="quantity" value="1" min="1" max="99"
-                                        data-item_id="{{ product.id }}" id="id_qty_{{ product.id }}">
+                                    <input class="form-control qty_input" type="number" name="quantity" value="1"
+                                        min="1" max="99" data-item_id="{{ product.id }}" id="id_qty_{{ product.id }}">
                                     <div class="input-group-append">
-                                        <button class="increment-qty btn btn-black rounded-0" data-item_id="{{ product.id }}"
-                                            id="increment-qty_{{ product.id }}">
+                                        <button class="increment-qty btn btn-black rounded-0"
+                                            data-item_id="{{ product.id }}" id="increment-qty_{{ product.id }}">
                                             <span class="icon">
                                                 <i class="fas fa-plus"></i>
                                             </span>
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                
+
                         <div class="form-row mt-5">
                             <div class="col-12 col-md-6">
                                 <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 w-100">
@@ -113,11 +113,12 @@
                                     <span class="text-uppercase">Keep Shopping</span>
                                 </a>
                             </div>
-                
+
                             <div class="col-12 col-md-6 mt-3 mt-md-0">
-                                <input type="submit" class="btn btn-black rounded-0 text-uppercase w-100" value="Add to Bag">
+                                <input type="submit" class="btn btn-black rounded-0 text-uppercase w-100"
+                                    value="Add to Bag">
                             </div>
-                
+
                             {% if request.user.is_authenticated %}
                             <div class="col-12 mt-3">
                                 <a href="{% url 'add_to_wishlist' product_id=product.id %}"
@@ -127,29 +128,50 @@
                             </div>
                             {% endif %}
                         </div>
-                
+
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
                     </div>
-                        </form>
-                        <div class="comments-section mt-5">
-                            <h4>Comments:</h4>
-                            {% for comment in product.comments.all %}
-                            <p>{{ comment.user.username }} ({{ comment.created_date }}): {{ comment.text }}</p>
-                            {% if comment.user == request.user %}
-                            <a href="{% url 'edit_comment' comment.id %}">Edit</a> |
-                            <a class="text-danger" href="{% url 'delete_comment' comment.id %}">Delete</a>
-                            {% endif %}
-                            {% empty %}
-                            <p>No comments yet. Be the first one to comment!</p>
-                            {% endfor %}
-                            <form method="post" action="{% url 'add_comment' product.id %}"
-                                data-action-url="{% url 'add_comment' product.id %}">
-                                {% csrf_token %}
-                                <textarea id="comment_text" name="text"></textarea>
-                                <button type="submit" class="btn btn-black rounded-0 text-uppercase" id="id_submit" disabled>Add
-                                    comment</button>
-                            </form>
                 </form>
+                <div class="comments-section mt-5">
+                    <h4>Comments:</h4>
+                    {% for comment in product.comments.all %}
+                    <div>
+                        <p>
+                            <strong>{{ comment.user.username }}</strong> ({{ comment.created_date }}): {{ comment.text }}
+                        </p>
+                        <div class="star-rating">
+                            {% for i in stars %}
+                            <span class="fa fa-star {% if i <= comment.rating %}checked{% else %}unchecked{% endif %}"></span>
+                            {% endfor %}
+                        </div>
+                        {% if request.user.is_superuser %}
+                        <a href="{% url 'edit_comment' comment.id %}">Edit</a> |
+                        <a class="text-danger" href="{% url 'delete_comment' comment.id %}">Delete</a>
+                        {% endif %}
+                    </div>
+                    {% empty %}
+                    <p>No comments yet. Be the first one to comment!</p>
+                    {% endfor %}
+                    <form method="post" action="{% url 'add_comment' product.id %}"
+                        data-action-url="{% url 'add_comment' product.id %}">
+                        {% csrf_token %}
+                        <textarea id="comment_text" name="text"></textarea>
+                        <!-- Add input field for star rating -->
+                        <div class="rating">
+                            <label for="stars">Rate:</label>
+                            <select name="stars" id="comment_stars">
+                                <option value="">Rate...</option>
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-black rounded-0 text-uppercase" id="id_submit" disabled>Add
+                            comment</button>
+                    </form>
+                </div>
 
             </div>
         </div>
@@ -164,20 +186,15 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', (event) => {
         var form = document.querySelector('form[data-action-url]');
-        console.log('form: ', form);
 
         var actionUrl = form ? form.getAttribute('data-action-url') : '';
-        console.log('actionUrl: ', actionUrl);
 
         var commentInput = document.getElementById('comment_text');
         var submitButton = document.getElementById('id_submit');
 
-        console.log('commentInput: ', commentInput);
-        console.log('submitButton: ', submitButton);
 
         if (commentInput && submitButton) {
             commentInput.addEventListener('input', function (e) {
-                console.log('input event: ', e);
                 if (e.target.value) {
                     submitButton.disabled = false;
                 } else {

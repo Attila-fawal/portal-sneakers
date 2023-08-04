@@ -192,6 +192,25 @@ input[name='q']::placeholder {
     width: 100%;
 }
 
+/* comments edit */
+
+.comment-form {
+    margin-top: 150px;
+
+}
+
+.fa-star {
+    color: gray;
+}
+
+.checked {
+    color: orange;
+}
+
+.star-rating {
+    margin-bottom: 10px;
+}
+
 /* -------------------------------- Media Queries */
 
 /* Slightly larger container on xl screens */
@@ -285,14 +304,6 @@ input[name='q']::placeholder {
     border-color: #dc3545;
     border-radius: 0;
 }
-
-/* comments edit */
-
-.comment-form {
-    margin-top: 150px;
-
-}
-
 
 
 /* fixed top navbar only on medium and up */

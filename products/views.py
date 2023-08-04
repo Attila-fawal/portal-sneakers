@@ -76,25 +76,24 @@ def product_detail(request, product_id):
 
     product = get_object_or_404(Product, pk=product_id)
     
+    # Get all the comments related to the product
+    comments = product.comments.all()
+
+    # Create a list [1, 2, 3, 4, 5] to generate the stars in the template
+    stars = list(range(1, 6))  
+
     # Instantiate the form
     comment_form = CommentForm()
 
     context = {
         'product': product,
         'comment_form': comment_form,
+        'comments': comments,
+        'stars': stars,
     }
 
     return render(request, 'products/product_detail.html', context)
 
-
-class GetSizesView(View):
-    def get(self, request, *args, **kwargs):
-        size_type = request.GET.get('size_type', None)
-        if size_type:
-            sizes = list(Size.objects.filter(size_type=size_type).values('id', 'size'))
-            return JsonResponse({'sizes': sizes})
-        else:
-            return JsonResponse({'error': 'Missing size type parameter.'}, status=400)
 
 @login_required
 def add_product(request):
