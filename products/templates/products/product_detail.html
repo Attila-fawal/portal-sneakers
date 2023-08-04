@@ -130,6 +130,25 @@
                 
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
                     </div>
+                        </form>
+                        <div class="comments-section mt-5">
+                            <h4>Comments:</h4>
+                            {% for comment in product.comments.all %}
+                            <p>{{ comment.user.username }} ({{ comment.created_date }}): {{ comment.text }}</p>
+                            {% if comment.user == request.user %}
+                            <a href="{% url 'edit_comment' comment.id %}">Edit</a> |
+                            <a class="text-danger" href="{% url 'delete_comment' comment.id %}">Delete</a>
+                            {% endif %}
+                            {% empty %}
+                            <p>No comments yet. Be the first one to comment!</p>
+                            {% endfor %}
+                            <form method="post" action="{% url 'add_comment' product.id %}"
+                                data-action-url="{% url 'add_comment' product.id %}">
+                                {% csrf_token %}
+                                <textarea id="comment_text" name="text"></textarea>
+                                <button type="submit" class="btn btn-black rounded-0 text-uppercase" id="id_submit" disabled>Add
+                                    comment</button>
+                            </form>
                 </form>
 
             </div>

@@ -180,7 +180,7 @@ input[name='q']::placeholder {
     overflow-y: auto;
 }
 
-
+/* wishlist */
 .wishlist-item {
     display: flex;
     flex-direction: column;
