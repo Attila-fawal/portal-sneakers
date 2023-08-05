@@ -152,7 +152,6 @@
         var url = `/bag/update/${itemId}/`;
         var data = { 'csrfmiddlewaretoken': csrfToken, 'quantity': quantity, 'size': size };
 
-        console.log(size); // Check if the size is correctly logged
         $.post(url, data)
             .done(function (data) {
                 if (data.success) {
@@ -174,7 +173,6 @@
         var url = `/bag/remove/${itemId}/`;
         var data = { 'csrfmiddlewaretoken': csrfToken, 'size': size };
 
-        console.log(size); // Check if the size is correctly logged
         $.post(url, data)
             .done(function () {
                 console.log('AJAX request completed. Reloading page...');
