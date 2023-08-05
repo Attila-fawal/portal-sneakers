@@ -2,12 +2,11 @@ html {
     height: 100%;
 }
 
-body {
-    background: url('/media/Professional-shoe-sniffers-part-of-eBay-Authentication-Guarantee-programme-shutterstock_1252581049.jpg') no-repeat center center fixed;
+.main-picture {
+    background: url('/media/Professional-shoe-sniffers-part-of-eBay-Authentication-Guarantee-programme-shutterstock_1252581049.jpg') no-repeat center 10% fixed;
     background-size: cover;
     height: calc(100vh - 164px);
     color: #555;
-    font-family: 'Lato';
 }
 
 /* from Bulma */
@@ -43,6 +42,7 @@ body {
     color: black !important;
     /* use important to override link colors for <a> elements */
     border: 1px solid black;
+
 }
 
 .btn-outline-black:hover,
@@ -210,6 +210,31 @@ input[name='q']::placeholder {
 .star-rating {
     margin-bottom: 10px;
 }
+
+footer {
+    height: 150px;
+}
+
+.social-networks {
+    text-align: center;
+}
+
+.social-networks>li {
+    display: inline;
+}
+
+.social-networks i {
+    font-size: 160%;
+    margin: 1%;
+    padding: 5%;
+    color: #000000;
+}
+
+.footer-text {
+    text-align: center;
+    color: #000;
+}
+
 
 /* -------------------------------- Media Queries */
 
