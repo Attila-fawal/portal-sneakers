@@ -1,1 +1,1 @@
-web: gunicorn portal-sneakers.wsgi:application
+web: gunicorn portal_sneakers.wsgi:application
