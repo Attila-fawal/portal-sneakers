@@ -133,13 +133,36 @@
 {% include 'products/includes/quantity_input_script.html' %}
 
 <script type="text/javascript">
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+
     // Update quantity on click
     $('.update-link').click(function (e) {
         var itemIdSize = $(this).attr('id').split('update_')[1];
         var itemId = itemIdSize.split('_')[0];
         var itemSize = itemIdSize.split('_')[1];
-        var quantity = $('#quantity_' + itemId + '_' + itemSize).val(); // make sure your quantity input has id like 'quantity_<itemId>_<itemSize>'
-        var url = `/bag/update/${itemId}/${itemSize}/`;
+        var quantity = $('#id_qty_' + itemId + '_' + itemSize).val(); // make sure your quantity input has id like 'id_qty_<itemId>_<itemSize>'
+        var url = `/bag/adjust/${itemId}/${itemSize}/`;
         var data = { 'quantity': quantity, 'size': itemSize };
 
         $.post(url, data)
@@ -153,7 +176,7 @@
     });
 
     // Remove item and reload on click
-    $('.remove-link').click(function (e) {
+    $('.remove-item').click(function (e) {
         var itemIdSize = $(this).attr('id').split('remove_')[1];
         var itemId = itemIdSize.split('_')[0];
         var itemSize = itemIdSize.split('_')[1];
@@ -167,6 +190,9 @@
                 }
             });
     });
+
+
 </script>
+
 
 {% endblock %}

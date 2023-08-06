@@ -4,12 +4,10 @@
         <div class="input-group">
             <div class="input-group-prepend">
                 <button
-                    class="decrement-qty btn btn-sm btn-black rounded-0 decrement-size_{{ item.item_id }}_{{ item.size.id }}"
+                    class="decrement-qty btn btn-sm btn-black rounded-0 decrement-qty_{{ item.item_id }}_{{ item.size.id }}"
                     data-item_id="{{ item.item_id }}" data-size="{{ item.size.id }}"
-                    id="decrement-size_{{ item.item_id }}_{{ item.size.id }}">
-                    <span>
-                        <i class="fas fa-minus fa-sm"></i>
-                    </span>
+                    id="decrement-qty_{{ item.item_id }}_{{ item.size.id }}">
+                    <span><i class="fas fa-minus fa-sm"></i></span>
                 </button>
             </div>
             <input class="form-control form-control-sm qty_input" type="number" name="quantity"
@@ -17,12 +15,10 @@
                 data-size="{{ item.size.id }}" id="id_qty_{{ item.item_id }}_{{ item.size.id }}">
             <div class="input-group-append">
                 <button
-                    class="increment-qty btn btn-sm btn-black rounded-0 increment-size_{{ item.item_id }}_{{ item.size.id }}"
+                    class="increment-qty btn btn-sm btn-black rounded-0 increment-qty_{{ item.item_id }}_{{ item.size.id }}"
                     data-item_id="{{ item.item_id }}" data-size="{{ item.size.id }}"
-                    id="increment-size_{{ item.item_id }}_{{ item.size.id }}">
-                    <span>
-                        <i class="fas fa-plus fa-sm"></i>
-                    </span>
+                    id="increment-qty_{{ item.item_id }}_{{ item.size.id }}">
+                    <span><i class="fas fa-plus fa-sm"></i></span>
                 </button>
             </div>
             <input type="hidden" name="product_size" value="{{ item.size.id }}">

@@ -92,7 +92,7 @@ def adjust_bag(request, item_id, size):
 
 
 
-def remove_from_bag(request, item_id):
+def remove_from_bag(request, item_id, size):
     print("Removing from bag:")
     """Remove the item from the shopping bag"""
     try:

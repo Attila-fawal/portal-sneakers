@@ -211,6 +211,8 @@ input[name='q']::placeholder {
     margin-bottom: 10px;
 }
 
+/* footer */
+
 footer {
     height: 150px;
 }
@@ -233,6 +235,18 @@ footer {
 .footer-text {
     text-align: center;
     color: #000;
+}
+
+/* ----  quantity field arrows */
+input.qty_input[type="number"]::-webkit-inner-spin-button,
+input.qty_input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input.qty_input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 
@@ -393,4 +407,3 @@ footer {
         padding: .25rem .5rem !important;
     }
 }
-
