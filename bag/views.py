@@ -20,6 +20,9 @@ def add_to_bag(request, item_id):
     redirect_url = request.POST.get('redirect_url')
     bag = request.session.get('bag', {})
 
+    print("Adding to bag:")
+    print(f"Product: {product.name}, size: {size_id}, quantity: {quantity}")
+
     # Check if the quantity is less than 1
     if quantity < 1:
         messages.error(request, 'Quantity must be at least 1.')
@@ -51,7 +54,7 @@ def add_to_bag(request, item_id):
 
     return redirect(redirect_url)
 
-def adjust_bag(request, item_id):
+def adjust_bag(request, item_id, size):
     """Adjust the quantity of the specified product to the specified amount"""
     
     try:
@@ -63,6 +66,9 @@ def adjust_bag(request, item_id):
 
         # Retrieve the ProductSize instance for this product and size
         product_size = ProductSize.objects.get(product=product, size__id=int(size_id))
+        print("Adjusting bag:")
+        print(f"Product: {product.name}, size: {size_id}, quantity: {quantity}")
+
 
         if quantity < 1:
             messages.error(request, 'Quantity must be at least 1.')
@@ -87,6 +93,7 @@ def adjust_bag(request, item_id):
 
 
 def remove_from_bag(request, item_id):
+    print("Removing from bag:")
     """Remove the item from the shopping bag"""
     try:
         item_id = str(item_id)  # convert item_id to string

@@ -189,7 +189,7 @@ def edit_product(request, product_id):
     context = {
         'form': form,
         'formset': formset,
-        'product': product,  # Add this line
+        'product': product,  
     }
 
     return render(request, template, context)

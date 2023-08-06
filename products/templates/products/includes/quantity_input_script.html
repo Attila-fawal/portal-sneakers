@@ -1,52 +1,87 @@
 <script type="text/javascript">
 
     function handleEnableDisable(itemId, size) {
-        var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
+            // Log the id being used
+            console.log(`id being used is: id_qty_${itemId}_${size}`);
 
-        // Ensure the quantity cannot be decreased lower than 1 and cannot be increased above the stock amount
-        var minusDisabled = currentValue <= 1;
-        var plusDisabled = currentValue >= 10; // Fetch the max stock value from the server for the particular itemId and size
+            // Log the length of the jQuery object (number of elements found)
+            console.log('Number of elements found:', $(`#id_qty_${itemId}_${size}`).length);
 
-        $(`.decrement-size_${itemId}_${size}`).prop('disabled', minusDisabled);
-        $(`.increment-size_${itemId}_${size}`).prop('disabled', plusDisabled);
-    }
+            var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
+            console.log('Element:', $(`#id_qty_${itemId}_${size}`));
+            console.log('Element value:', $(`#id_qty_${itemId}_${size}`).val());
+            console.log('Current value:', currentValue);
+            var minusDisabled = currentValue <= 1;
+            var plusDisabled = currentValue >= 10; // Fetch the max stock value from the server for the particular itemId and size
+            console.log('itemId:', itemId);
+            console.log('size:', size);
+            console.log('minusDisabled:', minusDisabled);
+            console.log('plusDisabled:', plusDisabled);
 
-    // Ensure proper enabling/disabling of all inputs on page load
-    var allQtyInputs = $('.qty_input');
-    for (var i = 0; i < allQtyInputs.length; i++) {
-        var itemId = $(allQtyInputs[i]).data('item_id');
-        var size = $(allQtyInputs[i]).data('size');
-        handleEnableDisable(itemId, size);
-    }
+            $(`.decrement-size_${itemId}_${size}`).prop('disabled', minusDisabled);
+            $(`.increment-size_${itemId}_${size}`).prop('disabled', plusDisabled);
+        }
 
-    // Check enable/disable every time the input is changed
-    $('.qty_input').change(function () {
-        var itemId = $(this).data('item_id');
-        var size = $(this).data('size');
-        handleEnableDisable(itemId, size);
-    });
+        // Ensure proper enabling/disabling of all inputs on page load
+        var allQtyInputs = $('.qty_input');
+        for (var i = 0; i < allQtyInputs.length; i++) {
+            var itemId = $(allQtyInputs[i]).data('item_id');
+            var size = $(allQtyInputs[i]).data('size');
+            console.log('itemId on input change:', itemId);
+            console.log('size on input change:', size);
+            handleEnableDisable(itemId, size);
+        }
 
-    // Increment quantity
-    $('.increment-qty').click(function (e) {
-        e.preventDefault();
-        var itemId = $(this).data('item_id');
-        var size = $(this).data('size');
-        var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
+        // Check enable/disable every time the input is changed
+        $('.qty_input').change(function () {
+            var itemId = $(this).data('item_id');
+            var size = $(this).data('size');
+            handleEnableDisable(itemId, size);
+        });
 
-        $(`#id_qty_${itemId}_${size}`).val(currentValue + 1);
-        handleEnableDisable(itemId, size);
-    });
+        // Increment quantity
+        $('.increment-qty').click(function (e) {
+            e.preventDefault();
+            var itemId = $(this).data('item_id');
+            var size = $(this).data('size');
+            var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
 
-    // Decrement quantity
-    $('.decrement-qty').click(function (e) {
-        e.preventDefault();
-        var itemId = $(this).data('item_id');
-        var size = $(this).data('size');
-        var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
+            // Log the id being used
+            console.log(`id being used is: id_qty_${itemId}_${size}`);
 
-        $(`#id_qty_${itemId}_${size}`).val(currentValue - 1);
-        handleEnableDisable(itemId, size);
-    });
+            // Log the length of the jQuery object (number of elements found)
+            console.log('Number of elements found:', $(`#id_qty_${itemId}_${size}`).length);
+
+            console.log('Element:', $(`#id_qty_${itemId}_${size}`));
+            console.log('Element value:', $(`#id_qty_${itemId}_${size}`).val());
+            console.log('Incrementing. Current value:', currentValue);
+            console.log('itemId on increment:', itemId);
+            console.log('size on increment:', size);
+            $(`#id_qty_${itemId}_${size}`).val(currentValue + 1);
+            handleEnableDisable(itemId, size);
+        });
+
+        // Decrement quantity
+        $('.decrement-qty').click(function (e) {
+            e.preventDefault();
+            var itemId = $(this).data('item_id');
+            var size = $(this).data('size');
+            var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
+
+            // Log the id being used
+            console.log(`id being used is: id_qty_${itemId}_${size}`);
+
+            // Log the length of the jQuery object (number of elements found)
+            console.log('Number of elements found:', $(`#id_qty_${itemId}_${size}`).length);
+
+            console.log('Element:', $(`#id_qty_${itemId}_${size}`));
+            console.log('Element value:', $(`#id_qty_${itemId}_${size}`).val());
+            console.log('itemId on decrement:', itemId);
+            console.log('size on decrement:', size);
+            console.log('Decreasing. Current value:', currentValue);
+            $(`#id_qty_${itemId}_${size}`).val(currentValue - 1);
+            handleEnableDisable(itemId, size);
+        });
 
     $(document).ready(function () {
         // Get the size dropdown and size type field
