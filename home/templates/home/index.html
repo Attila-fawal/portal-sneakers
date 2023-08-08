@@ -14,9 +14,13 @@
     <div class="container h-100">
         <div class="row h-100">
             <div class="col-7 col-md-6">
-                <h3 class="display-4 logo-font text-black">
-                    The new collections are here Latest sneaker releases
-                </h3>
+                <h1 class="display-4 logo-font text-black">
+                    <a href="https://www.nike.com/" target="_blank" rel="noopener noreferrer"
+                        class="text-black">
+                        The new collections are here
+                    </a>
+                    Latest sneaker releases
+                </h1>
                 <div class="my-5">
                     <h4>
                         <a href="{% url 'products' %}"
@@ -29,7 +33,8 @@
 </div>
 
 <div class="container mt-5">
-    <h2 class="text-center">New Arrivals Fashionable sneakers for all ages</h2>
+    <h2 class="text-center">New Arrivals <a href="https://www.highsnobiety.com/" target="_blank"
+            rel="noopener noreferrer"><strong>Fashionable sneakers for all ages</strong></a></h2>
     <div class="row mt-4">
         {% for product in new_arrival_items %}
         <div class="col-6 col-sm-4 col-md-3 col-lg-2">
