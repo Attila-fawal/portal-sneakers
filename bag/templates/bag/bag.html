@@ -161,7 +161,7 @@
         var itemIdSize = $(this).attr('id').split('update_')[1];
         var itemId = itemIdSize.split('_')[0];
         var itemSize = itemIdSize.split('_')[1];
-        var quantity = $('#id_qty_' + itemId + '_' + itemSize).val(); // make sure your quantity input has id like 'id_qty_<itemId>_<itemSize>'
+        var quantity = $('#id_qty_' + itemId + '_' + itemSize).val(); 
         var url = `/bag/adjust/${itemId}/${itemSize}/`;
         var data = { 'quantity': quantity, 'size': itemSize };
 

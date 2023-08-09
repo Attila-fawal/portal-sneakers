@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['8000-attilafawal-portalsneak-e7sxqyu3g8b.ws-us102.gitpod.io', 'localhost',
                 'portal-sneakers-b3943e09f616.herokuapp.com']
@@ -131,6 +131,7 @@ WSGI_APPLICATION = 'portal_sneakers.wsgi.application'
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+
     }
 else:
     DATABASES = {

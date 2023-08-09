@@ -32,16 +32,9 @@
         var itemId = $(this).data('item_id');
         var size = $(this).data('size');
         var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
-        console.log('Updated Value:', $(`#id_qty_${itemId}_${size}`).val());
-
-        console.log('Increment button clicked.');
-        console.log('Item ID:', itemId);
-        console.log('Size:', size);
-        console.log('Current Value:', currentValue);
-
+        
         $(`#id_qty_${itemId}_${size}`).val(currentValue + 1);
         handleEnableDisable(itemId, size);
-        console.log('End of increment script');
 
     });
 
@@ -53,23 +46,9 @@
         var itemId = $(this).data('item_id');
         var size = $(this).data('size');
         var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
-        console.log('Updated Value:', $(`#id_qty_${itemId}_${size}`).val());
-
-        // Log the id being used
-        console.log(`id being used is: id_qty_${itemId}_${size}`);
-
-        // Log the length of the jQuery object (number of elements found)
-        console.log('Number of elements found:', $(`#id_qty_${itemId}_${size}`).length);
-
-        console.log('Element:', $(`#id_qty_${itemId}_${size}`));
-        console.log('Element value:', $(`#id_qty_${itemId}_${size}`).val());
-        console.log('itemId on decrement:', itemId);
-        console.log('size on decrement:', size);
-        console.log('Decreasing. Current value:', currentValue);
 
         $(`#id_qty_${itemId}_${size}`).val(currentValue - 1);
         handleEnableDisable(itemId, size);
-        console.log('End of decrement script');
 
     });
 
