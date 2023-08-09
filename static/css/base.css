@@ -369,9 +369,6 @@ input.qty_input[type="number"] {
 
 /* pad the top a bit when navbar is collapsed on mobile */
 @media (max-width: 991px) {
-    .header-container {
-        padding-top: 116px;
-    }
 
     body {
         height: calc(100vh - 116px);
@@ -413,5 +410,30 @@ input.qty_input[type="number"] {
     .increment-qty,
     .decrement-qty {
         padding: .25rem .5rem !important;
+    }
+
+
+
+    .promo-sneaker-section {
+        margin-top: -145px;
+        padding-top: 110px;
+    }
+
+
+    .free-delivery-banner {
+        padding-bottom: 2px;
+    }
+
+    .free-delivery-banner h2 {
+        font-size: 19px;
+        font-weight: normal;
+        line-height: 1.2;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+
+    .form-control{
+        font-size: 14px;
     }
 }

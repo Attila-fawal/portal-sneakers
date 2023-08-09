@@ -154,7 +154,7 @@
                                 class="fa fa-star {% if i <= comment.rating %}checked{% else %}unchecked{% endif %}"></span>
                             {% endfor %}
                         </div>
-                        {% if request.user.is_superuser %}
+                        {% if request.user == comment.user or request.user.is_superuser %}
                         <a href="{% url 'edit_comment' comment.id %}">Edit</a> |
                         <a class="text-danger" href="{% url 'delete_comment' comment.id %}">Delete</a>
                         {% endif %}
