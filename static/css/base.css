@@ -351,6 +351,10 @@ input.qty_input[type="number"] {
     border-radius: 0;
 }
 
+h2.logo-font {
+    margin-top: 30px;
+}
+
 
 /* fixed top navbar only on medium and up */
 @media (min-width: 992px) {
@@ -365,6 +369,8 @@ input.qty_input[type="number"] {
     .header-container {
         padding-top: 164px;
     }
+
+
 }
 
 /* pad the top a bit when navbar is collapsed on mobile */
@@ -425,15 +431,21 @@ input.qty_input[type="number"] {
     }
 
     .free-delivery-banner h2 {
-        font-size: 19px;
+        font-size: 17px;
         font-weight: normal;
-        line-height: 1.2;
+        line-height: 1;
         margin-top: 0;
         margin-bottom: 0;
     }
 
 
-    .form-control{
+    .form-control {
         font-size: 14px;
     }
+
+    .sort-select-wrapper {
+        margin-top: 60px;
+    }
+
+   
 }
