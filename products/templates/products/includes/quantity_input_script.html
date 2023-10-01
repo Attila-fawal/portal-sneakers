@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
 
     function handleEnableDisable(itemId, size) {
         var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
@@ -32,7 +32,7 @@
         var itemId = $(this).data('item_id');
         var size = $(this).data('size');
         var currentValue = parseInt($(`#id_qty_${itemId}_${size}`).val());
-        
+
         $(`#id_qty_${itemId}_${size}`).val(currentValue + 1);
         handleEnableDisable(itemId, size);
 
