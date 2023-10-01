@@ -127,7 +127,8 @@ class StripeWH_Handler:
                     status=200
                 )
 
-    def _create_order(self, intent, profile, bag, pid, shipping_details, billing_details):
+    def _create_order(self, intent, profile, bag, pid,
+                      shipping_details, billing_details):
         """Helper method to create order from webhook"""
         try:
             order = Order.objects.create(

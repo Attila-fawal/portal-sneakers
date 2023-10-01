@@ -58,7 +58,11 @@ def add_to_wishlist(request, product_id):
     wishlist = get_object_or_404(Wishlist, user=request.user)
     product = get_object_or_404(Product, pk=product_id)
     wishlist.products.add(product)
-    messages.success(request, f'You have added {product.name} to your wishlist! You can view it in my profile')
+    messages.success(
+        request,
+        (f'You have added {product.name} to your wishlist! '
+         'You can view it in my profile')
+    )
     return redirect('product_detail', product_id=product_id)
 
 

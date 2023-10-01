@@ -71,12 +71,16 @@ def adjust_bag(request, item_id, size):
 
         if quantity < 1:
             messages.error(request, 'Quantity must be at least 1.')
-            return JsonResponse({'success': False, 'redirect_url': reverse('view_bag')})
+            return JsonResponse({
+                                'success': False,
+                                'redirect_url': reverse('view_bag')})
 
         if quantity > product_size.quantity:
             msg = f'Sorry, only {product_size.quantity} items available.'
             messages.error(request, msg)
-            return JsonResponse({'success': False, 'redirect_url': reverse('view_bag')})
+            return JsonResponse({
+                                'success': False,
+                                'redirect_url': reverse('view_bag')})
 
         bag[item_id][size_id] = quantity
         request.session['bag'] = bag
@@ -86,7 +90,9 @@ def adjust_bag(request, item_id, size):
             f'to {quantity}'
         )
         messages.success(request, msg)
-        return JsonResponse({'success': True, 'redirect_url': reverse('view_bag')})
+        return JsonResponse({
+                            'success': True,
+                            'redirect_url': reverse('view_bag')})
 
     except Exception as e:
         messages.error(request, f'Error occurred: {e}')
