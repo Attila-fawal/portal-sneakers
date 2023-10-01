@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Product, Category, ProductSize
 
+
 class ProductSizeInline(admin.StackedInline):
     model = ProductSize
     extra = 0
@@ -17,14 +18,16 @@ class ProductAdmin(admin.ModelAdmin):
         'rating',
         'image',
     )
-    inlines = [ProductSizeInline,]
+    inlines = [ProductSizeInline, ]
     ordering = ('sku',)
+
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         'friendly_name',
         'name',
     )
+
 
 class ProductSizeAdmin(admin.ModelAdmin):
     list_display = (
@@ -37,6 +40,7 @@ class ProductSizeAdmin(admin.ModelAdmin):
         return f"{obj.size.size} ({obj.size.size_type})"
 
     display_size_and_type.short_description = 'Size (Type)'
+
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)

@@ -14,11 +14,6 @@ from .models import ProductSize
 from comments.forms import CommentForm
 
 
-
-
-
-
-
 # Create your views here.
 
 def all_products(request):
@@ -44,7 +39,7 @@ def all_products(request):
                 if direction == 'desc':
                     sortkey = f'-{sortkey}'
             products = products.order_by(sortkey)
-            
+
         if 'category' in request.GET:
             categories = request.GET['category'].split(',')
             products = products.filter(category__name__in=categories)
@@ -53,9 +48,10 @@ def all_products(request):
         if 'q' in request.GET:
             query = request.GET['q']
             if not query:
-                messages.error(request, "You didn't enter any search criteria!")
+                messages.error(request,
+                               "You didn't enter any search criteria!")
                 return redirect(reverse('products'))
-            
+
             queries = Q(name__icontains=query) | Q(description__icontains=query)
             products = products.filter(queries)
 
@@ -75,12 +71,11 @@ def product_detail(request, product_id):
     """ A view to show individual product details """
 
     product = get_object_or_404(Product, pk=product_id)
-    
     # Get all the comments related to the product
     comments = product.comments.all()
 
     # Create a list [1, 2, 3, 4, 5] to generate the stars in the template
-    stars = list(range(1, 6))  
+    stars = list(range(1, 6))
 
     # Instantiate the form
     comment_form = CommentForm()
@@ -113,7 +108,7 @@ def add_product(request):
             messages.success(request, 'Successfully added product!')
             return redirect('products')
         else:
-            messages.error(request, 'Failed to add product. Please ensure the form is valid.')
+            messages.error(request, 'Failed to add product.Please ensure the form is valid.')
     else:
         form = ProductForm()
         formset = create_product_size_formset()
@@ -126,13 +121,13 @@ def add_product(request):
 
     return render(request, template, context)
 
-    
+
 @login_required
 def get_sizes(request):
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
-        
+
     category = request.GET.get('category', None)
 
     if category is not None:
@@ -159,6 +154,7 @@ def get_sizes(request):
         return JsonResponse(sizes_list, safe=False)
 
     return JsonResponse({'error': 'Invalid category'}, status=400)
+
 
 @login_required
 def edit_product(request, product_id):
@@ -189,13 +185,10 @@ def edit_product(request, product_id):
     context = {
         'form': form,
         'formset': formset,
-        'product': product,  
+        'product': product,
     }
 
     return render(request, template, context)
-
-
-
 
 
 @login_required

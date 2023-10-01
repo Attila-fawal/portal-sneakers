@@ -6,6 +6,7 @@ from .models import UserProfile, Wishlist
 from .forms import UserProfileForm
 from checkout.models import Order
 
+
 @login_required
 def profile(request):
     """ Display the user's profile. """
@@ -18,7 +19,8 @@ def profile(request):
             form.save()
             messages.success(request, 'Profile updated successfully')
         else:
-            messages.error(request, 'Update failed. Please ensure the form is valid.')
+            messages.error(request,
+                           'Update failed. Please ensure the form is valid.')
     else:
         form = UserProfileForm(instance=profile)
     orders = profile.orders.all()
@@ -32,6 +34,7 @@ def profile(request):
     }
 
     return render(request, template, context)
+
 
 def order_history(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
@@ -49,6 +52,7 @@ def order_history(request, order_number):
 
     return render(request, template, context)
 
+
 @login_required
 def add_to_wishlist(request, product_id):
     wishlist = get_object_or_404(Wishlist, user=request.user)
@@ -57,10 +61,12 @@ def add_to_wishlist(request, product_id):
     messages.success(request, f'You have added {product.name} to your wishlist! You can view it in my profile')
     return redirect('product_detail', product_id=product_id)
 
+
 @login_required
 def remove_from_wishlist(request, product_id):
     wishlist = get_object_or_404(Wishlist, user=request.user)
     product = get_object_or_404(Product, pk=product_id)
     wishlist.products.remove(product)
-    messages.success(request, f'You have removed {product.name} from your wishlist!')
-    return redirect('products')  
+    messages.success(request,
+                     f'You have removed {product.name} from your wishlist!')
+    return redirect('products')

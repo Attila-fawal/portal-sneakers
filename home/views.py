@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from products.models import Product  
+from products.models import Product
+
 
 def index(request):
     """ A view to return the index page with new arrival items """
