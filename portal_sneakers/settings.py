@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '8000-attilafawal-portalsneak-ym8j3bemz16.ws-eu105.gitpod.io',
