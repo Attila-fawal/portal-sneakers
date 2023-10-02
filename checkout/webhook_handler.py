@@ -53,10 +53,21 @@ class StripeWH_Handler:
         pid = intent.id
         bag = intent.metadata.bag
         save_info = intent.metadata.save_info
-        billing_details = intent.charges.data[0].billing_details
-        shipping_details = intent.shipping
-        grand_total = round(intent.charges.data[0].amount / 100, 2)
+       # Retrieve charges using Stripe API
+        charges = stripe.Charge.list(payment_intent=intent.id)
+        if charges.data:
+            billing_details = charges.data[0].billing_details
+            grand_total = round(charges.data[0].amount / 100, 2)
+        else:
+            return HttpResponse(
+                content=(
+                    f'Webhook received: {event["type"]} | '
+                    f'ERROR: No charges found for the payment intent'
+                ),
+                status=400
+            )
 
+        shipping_details = intent.shipping
         # Clean data in the shipping details
         for field, value in shipping_details.address.items():
             if value == "":

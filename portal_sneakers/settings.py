@@ -23,7 +23,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '8000-attilafawal-portalsneak-j721gou6u5e.ws-eu105.gitpod.io',
+    '8000-attilafawal-portalsneak-ym8j3bemz16.ws-eu105.gitpod.io',
     'localhost',
     'portal-sneakers-b3943e09f616.herokuapp.com'
 ]
