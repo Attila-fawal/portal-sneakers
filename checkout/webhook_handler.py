@@ -9,7 +9,10 @@ from profiles.models import UserProfile
 
 import json
 import time
+import stripe
 
+# Setting the Stripe API key using the key from Django's settings
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class StripeWH_Handler:
     """Handle Stripe webhooks"""
