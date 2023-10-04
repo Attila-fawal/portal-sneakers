@@ -320,6 +320,14 @@ The Bag App relies on Django's session management to keep track of a user's shop
 - The Quantity field in the Bag template not rendering the changed quantity on large screen. But the function is working And On small screen everything working fine.
 ## Validator and testing
 - PEP8 style guide and validated HTML and CSS code.
+![Screenshot (99)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/683863dd-8da5-48b6-a978-762856497639)
+
+![Screenshot (100)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/a430151e-c4a8-4f6b-8522-cdea80c690e0)
+
+![Screenshot (101)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/5862825e-b156-4cc4-b053-7a7838a004e3)
+
+![Screenshot (102)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/089d26ef-7bba-46a5-b767-8ed42291d0b6)
+
 - Device & Browser Testing: Ensure cross-browser and cross-device compatibility. Test on various devices (mobile, tablet, desktop) and browsers (Chrome, Firefox, Safari, Edge).
 
 - Responsive Design: Ensure the UI is responsive. Elements should adjust and look good on different screen sizes.
@@ -425,7 +433,20 @@ In the GitHub repository, navigate to the Settings tab
 From the source section drop-down menu, select the Main Branch
 Once the main branch has been selected, the page will be automatically refreshed with a detailed ribbon display to indicate the successful deployment.
 
-- Steps for deployment to heroku:
+-  1 Local Deployment:
+
+Dependencies: Install all required packages from your requirements.txt Ensure all required dependencies are downlodad. pip install -r requirements.txt
+
+
+Environment Variables: make sure you have a local .env file or other mechanisms to load them in your local environment.
+
+Run the App Locally:
+
+Start the Django development server:
+python manage.py runserver
+
+
+- 2 deployment to heroku:
 
 Fork or clone this repository.
 
@@ -433,10 +454,28 @@ create new heroku account or if you already have one press to create a new app.
 
 Add name for your new app And choose the region Go to settings and add buildpacks python.
 
-add a Config Var AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, USE_AWS DATABASE_URL, EMAIL_HOST_PASS, EMAIL_HOST_USER, SECRET_KEY, STRIPE_PUBLIC_KEY, STRIPE_SECRET_KEY, STRIPE_WH_SECRET.
+- Set the necessary environment variables:
+- AWS_ACCESS_KEY_ID,
+- AWS_SECRET_ACCESS_KEY,
+- USE_AWS,
+- DATABASE_URL,
+- EMAIL_HOST_PASS, 
+- EMAIL_HOST_USER, 
+- SECRET_KEY, 
+- STRIPE_PUBLIC_KEY, 
+- STRIPE_SECRET_KEY, 
+- STRIPE_WH_SECRET.
+If not already done, create a Procfile :
+
+web: gunicorn portal_sneakers.wsgi:application.
 
 Link the Heroku app to the repository
 Click the Deploy
+
+DEBUG should be False in production.
+Always backup your data before migrating.
+
+and robots.txt, sitemap.xml
 
 ## Credits
 code Institute For the deployment terminal.
@@ -589,6 +628,15 @@ link: https://www.facebook.com/profile.php?id=100095685485170
 and the project link: https://portal-sneakers-b3943e09f616.herokuapp.com
 
 
+
+## Wireframes
+
+![Screenshot (103)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/0f029323-8dc7-4425-b536-e45e36ee479a)
+![Screenshot (104)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/ce7e05dd-794b-4dad-80ad-590dcabc82b7)
+![Screenshot (109)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/60906aca-9be1-42b9-9081-972faddf9307)
+![Screenshot (113)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/fb729986-e629-4821-bc46-00c401306d2c)
+![Screenshot (111)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/50260577-902a-44f1-99b3-cb6d6ebd976c)
+![Screenshot (112)](https://github.com/Attila-fawal/portal-sneakers/assets/127791713/d6c83722-28ce-4ec3-8b37-ef888d8209da)
 
 
 
