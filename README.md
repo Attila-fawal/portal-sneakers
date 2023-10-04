@@ -465,6 +465,7 @@ Add name for your new app And choose the region Go to settings and add buildpack
 - STRIPE_PUBLIC_KEY, 
 - STRIPE_SECRET_KEY, 
 - STRIPE_WH_SECRET.
+
 If not already done, create a Procfile :
 
 web: gunicorn portal_sneakers.wsgi:application.
